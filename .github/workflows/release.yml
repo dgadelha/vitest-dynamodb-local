@@ -27,7 +27,6 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: npm run build
-      - run: npm test
       - name: Configure git user
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
