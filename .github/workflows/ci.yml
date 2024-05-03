@@ -19,17 +19,11 @@ jobs:
           - 22
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 9
-          run_install: false
-      - run: pnpm install
-      - run: pnpm build
-      - run: pnpm test
+      - run: npm ci
+      - run: npm run build
+      - run: npm test

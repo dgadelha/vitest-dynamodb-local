@@ -127,3 +127,19 @@ export const createTables = (
 export const killConnection = (): void => {
   connection?.dynamoDB.destroy();
 };
+
+export const waitForConnection = async (port: number): Promise<void> => {
+  const { dynamoDB } = dbConnection(port);
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    // eslint-disable-next-line no-await-in-loop
+    const tables = await dynamoDB.listTables().catch(() => undefined);
+
+    if (tables) {
+      break;
+    }
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(10);
+  }
+}

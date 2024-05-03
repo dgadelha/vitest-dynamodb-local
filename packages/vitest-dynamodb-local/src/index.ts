@@ -1,7 +1,7 @@
-import { beforeAll, afterEach, afterAll } from "vitest";
+import { afterAll, afterEach, beforeAll } from "vitest";
 
+import { createTables, deleteTables, start, stop } from "./db";
 import { setEnvironmentVariables } from "./setEnvironmentVariables";
-import { start, stop, createTables, deleteTables } from "./db";
 
 setEnvironmentVariables();
 
@@ -12,7 +12,7 @@ beforeAll(async () => {
   // console.time("await createTables();");
   await createTables();
   // console.timeEnd("await createTables();");
-});
+}, 60_000);
 
 afterEach(async () => {
   // console.time("await deleteTables();");

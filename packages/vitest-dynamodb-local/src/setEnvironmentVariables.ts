@@ -1,7 +1,7 @@
-import { getDynalitePort } from "./config";
+import { getDynamoDbLocalPort } from "./config";
 
 export const setEnvironmentVariables = (): void => {
-  const port = getDynalitePort();
+  const port = getDynamoDbLocalPort();
 
   // Provide environment variables before other scripts are executed
   process.env.MOCK_DYNAMODB_PORT = port.toString();
@@ -9,10 +9,10 @@ export const setEnvironmentVariables = (): void => {
 
   // aws-sdk requires access and secret key to be able to call DDB
   if (!process.env.AWS_ACCESS_KEY_ID) {
-    process.env.AWS_ACCESS_KEY_ID = "access-key";
+    process.env.AWS_ACCESS_KEY_ID = "AccessKey";
   }
 
   if (!process.env.AWS_SECRET_ACCESS_KEY) {
-    process.env.AWS_SECRET_ACCESS_KEY = "secret-key";
+    process.env.AWS_SECRET_ACCESS_KEY = "SecretKey";
   }
 };

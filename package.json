@@ -1,13 +1,17 @@
 {
-  "name": "vitest-dynamodb-lite-root",
+  "name": "vitest-dynamodb-local-root",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "build": "pnpm --filter vitest-dynamodb-lite build",
-    "test": "pnpm run --filter '!./packages/test-config-mjs' test"
+    "build": "lerna run build",
+    "test": "lerna run test"
   },
   "devDependencies": {
+    "lerna": "^8.1.2",
     "prettier": "^3.2.5"
   }
 }

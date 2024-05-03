@@ -3,10 +3,10 @@ import { resolve } from "node:path";
 import { Config, TableConfig } from "./types";
 import { isFunction } from "./utils";
 
-const CONFIG_FILE_NAME = "vitest-dynamodb-lite-config.js";
-const CONFIG_FILE_NAME_CJS = "vitest-dynamodb-lite-config.cjs";
-const CONFIG_FILE_NAME_MJS = "vitest-dynamodb-lite-config.mjs";
-const CONFIG_FILE_NAME_JSON = "vitest-dynamodb-lite-config.json";
+const CONFIG_FILE_NAME = "vitest-dynamodb-local-config.js";
+const CONFIG_FILE_NAME_CJS = "vitest-dynamodb-local-config.cjs";
+const CONFIG_FILE_NAME_MJS = "vitest-dynamodb-local-config.mjs";
+const CONFIG_FILE_NAME_JSON = "vitest-dynamodb-local-config.json";
 const CONFIG_FILE_NAMES = [
   CONFIG_FILE_NAME,
   CONFIG_FILE_NAME_CJS,
@@ -62,7 +62,7 @@ const readConfig = (): Config => {
   }
 };
 
-export const getDynalitePort = (): number => {
+export const getDynamoDbLocalPort = (): number => {
   const { basePort = 8000 } = readConfig();
   if (Number.isInteger(basePort) && basePort > 0 && basePort <= 65535) {
     return basePort + parseInt(process.env.VITEST_WORKER_ID || "1", 10);
@@ -92,7 +92,7 @@ export const getTables = async (): Promise<TableConfig[]> => {
 
   if (!Array.isArray(tablesCache)) {
     throw new Error(
-      "vitest-dynamodb-lite requires that the tables configuration is an array",
+      "vitest-dynamodb-local requires that the tables configuration is an array",
     );
   }
 

@@ -1,24 +1,24 @@
 {
-  "name": "vitest-dynamodb-lite",
-  "version": "3.0.4",
+  "name": "vitest-dynamodb-local",
+  "version": "0.0.0",
   "description": "fast dynamodb mock on local for vitest",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "author": "Tatsuya Yamamoto <the.kinnikuman@gmail.com> (https://github.com/yamatatsu)",
   "license": "MIT",
-  "repository": "github:yamatatsu/vitest-dynamodb-lite",
+  "repository": "github:dgadelha/vitest-dynamodb-local",
   "bugs": {
-    "url": "https://github.com/yamatatsu/vitest-dynamodb-lite/issues"
+    "url": "https://github.com/dgadelha/vitest-dynamodb-local/issues"
   },
-  "homepage": "https://github.com/yamatatsu/vitest-dynamodb-lite/tree/main/packages/vitest-dynamodb-lite#readme",
+  "homepage": "https://github.com/dgadelha/vitest-dynamodb-local/tree/main/packages/vitest-dynamodb-local#readme",
   "keywords": [
     "vitest",
     "test",
     "aws",
     "amazon",
     "dynamodb",
-    "dynalite",
+    "local",
     "database"
   ],
   "files": [
@@ -38,7 +38,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.565.0",
     "@aws-sdk/util-dynamodb": "^3.565.0",
-    "dynalite": "^3.2.2"
+    "dynamo-db-local": "^8.1.1"
   },
   "peerDependencies": {
     "vitest": "1.x"

@@ -19,21 +19,15 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 9
-          run_install: false
-      - run: pnpm install
-      - run: pnpm build
-      - run: pnpm test
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
       - name: Configure git user
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -41,8 +35,8 @@ jobs:
       - name: Bump package.json version
         id: bump
         run: |
-          cd packages/vitest-dynamodb-lite
-          pnpm version ${{ github.event.inputs.bumpType }}
+          cd packages/vitest-dynamodb-local
+          npm version ${{ github.event.inputs.bumpType }}
           echo "VERSION=v$(cat package.json | jq -r '.version')" >> $GITHUB_OUTPUT
       - name: Commit and Push
         run: |
@@ -58,8 +52,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release
         run: |
-          cd packages/vitest-dynamodb-lite
-          pnpm publish
+          cd packages/vitest-dynamodb-local
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

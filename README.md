@@ -1,3 +1,3 @@
-# vitest-dynamodb-lite
+# vitest-dynamodb-local
 
-See [the package](packages/vitest-dynamodb-lite#readme).
+See [the package](packages/vitest-dynamodb-local#readme).
