@@ -38,7 +38,8 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.565.0",
     "@aws-sdk/util-dynamodb": "^3.565.0",
-    "dynamo-db-local": "^8.1.1"
+    "dynamo-db-local": "^8.1.1",
+    "import-sync": "^2.2.2"
   },
   "peerDependencies": {
     "vitest": "1.x"

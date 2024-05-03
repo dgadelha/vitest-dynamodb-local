@@ -1,3 +1,4 @@
+import importSync from "import-sync";
 import fs from "node:fs";
 import { resolve } from "node:path";
 import { Config, TableConfig } from "./types";
@@ -43,10 +44,7 @@ const readConfig = (): Config => {
   const file = resolve(rootDir, configFile);
 
   try {
-    if (file.endsWith(".json")) {
-      return JSON.parse(fs.readFileSync(file, "utf-8"));
-    }
-    const importedConfig = eval(fs.readFileSync(file, "utf-8"));
+    const importedConfig = importSync(file);
     if ("default" in importedConfig) {
       return importedConfig.default;
     }

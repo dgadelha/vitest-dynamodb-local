@@ -4,8 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "echo ok",
-    "test:run": "vitest run"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.565.0",
