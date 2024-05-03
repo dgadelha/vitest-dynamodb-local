@@ -7,13 +7,15 @@ export let dynamoDbLocalInstance: ReturnType<typeof dynamoDbLocal["spawn"]>;
 
 export const start = async (): Promise<void> => {
   if (!dynamoDbLocalInstance) {
+    const port = getDynamoDbLocalPort();
+
     dynamoDbLocalInstance = dynamoDbLocal.spawn({
-      port: getDynamoDbLocalPort(),
+      port,
       stdio: 'inherit',
       path: null,
     });
 
-    await dynamodb.waitForConnection(getDynamoDbLocalPort());
+    await dynamodb.waitForConnection(port);
   }
 };
 
