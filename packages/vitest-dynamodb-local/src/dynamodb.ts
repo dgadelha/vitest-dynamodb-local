@@ -13,14 +13,13 @@ const dbConnection = (port: number): Connection => {
   if (connection) {
     return connection;
   }
-  const options = {
-    endpoint: `http://localhost:${port}`,
-    sslEnabled: false,
-    region: "local",
-  };
 
   connection = {
-    dynamoDB: new DynamoDB(options),
+    dynamoDB: new DynamoDB({
+      endpoint: `http://localhost:${port}`,
+      region: "local",
+      maxAttempts: 0,
+    }),
   };
 
   return connection;
@@ -139,7 +138,5 @@ export const waitForConnection = async (port: number): Promise<void> => {
     if (tables) {
       break;
     }
-    // eslint-disable-next-line no-await-in-loop
-    await sleep(10);
   }
-}
+};
