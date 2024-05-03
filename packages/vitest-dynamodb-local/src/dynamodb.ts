@@ -83,6 +83,12 @@ export const deleteTables = async (
   await Promise.all(tableNames.map((table) => waitForDeleted(dynamoDB, table)));
 };
 
+export const listTables = async (port: number): Promise<string[]> => {
+  const { dynamoDB } = dbConnection(port);
+  const tables = await dynamoDB.listTables();
+  return tables.TableNames ?? [];
+}
+
 export const createTables = async (
   tables: TableConfig[],
   port: number,

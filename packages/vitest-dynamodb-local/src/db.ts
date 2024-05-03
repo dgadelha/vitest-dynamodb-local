@@ -45,5 +45,11 @@ export const deleteTables = async (): Promise<void> => {
 
 export const createTables = async (): Promise<void> => {
   const tables = await getTables();
+  const tableList = await dynamodb.listTables(getDynamoDbLocalPort());
+
+  if (tableList.length > 0) {
+    await dynamodb.deleteTables(tableList, getDynamoDbLocalPort());
+  }
+
   await dynamodb.createTables(tables, getDynamoDbLocalPort());
 };
