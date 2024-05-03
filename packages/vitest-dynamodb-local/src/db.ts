@@ -3,7 +3,7 @@ import dynamoDbLocal from "dynamo-db-local";
 import { getDynamoDbLocalPort, getTables } from "./config";
 import * as dynamodb from "./dynamodb";
 
-export let dynamoDbLocalInstance: ReturnType<typeof dynamoDbLocal["spawn"]>;
+export let dynamoDbLocalInstance: ReturnType<(typeof dynamoDbLocal)["spawn"]>;
 
 export const start = async (): Promise<void> => {
   if (!dynamoDbLocalInstance) {
@@ -11,8 +11,14 @@ export const start = async (): Promise<void> => {
 
     dynamoDbLocalInstance = dynamoDbLocal.spawn({
       port,
-      stdio: 'inherit',
+      stdio: "inherit",
       path: null,
+    });
+
+    process.on("exit", () => {
+      if (!dynamoDbLocalInstance.killed) {
+        dynamoDbLocalInstance.kill("SIGKILL");
+      }
     });
 
     await dynamodb.waitForConnection(port);
