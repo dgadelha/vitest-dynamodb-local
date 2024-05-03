@@ -1,6 +1,6 @@
 # vitest-dynamodb-local
 
-vitest-dynamodb-local is a fast, concurrent-safe DynamoDB mock for testing with vitest.
+vitest-dynamodb-local is a fast DynamoDB mock for testing with vitest.
 
 ## Installation
 
@@ -14,7 +14,7 @@ pnpm add vitest-dynamodb-local -D
 
 ## Usage
 
-### 1. Set `setupFiles` in `vitest.config.ts`
+### 1. Set `globalSetup` in `vitest.config.ts`
 
 ```js
 // vitest.config.ts
@@ -22,7 +22,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    setupFiles: ["vitest-dynamodb-local"],
+    globalSetup: ["vitest-dynamodb-local"],
   },
 });
 ```
@@ -71,8 +71,6 @@ const client = new DynamoDBClient({
   }),
 });
 ```
-
-`process.env.MOCK_DYNAMODB_ENDPOINT` is unique to each test runner.
 
 After all your tests, make sure you destroy your client.
 You can even do this by adding an `afterAll` in a [`setupFilesAfterEnv`](https://jestjs.io/docs/en/configuration#setupfilesafterenv-array) file.

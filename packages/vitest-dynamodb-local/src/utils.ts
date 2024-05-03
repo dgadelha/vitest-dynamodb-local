@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 export const isPromise = <R>(p: unknown | Promise<R>): p is Promise<R> =>
   !!p && Object.prototype.toString.call(p) === "[object Promise]";
 
@@ -32,48 +30,6 @@ export const omit = <T extends object, K extends [...(keyof T)[]]>(
     .reduce((agg, key) => ({ ...agg, [key]: obj[key] }), {}) as {
     [P in Exclude<keyof T, K[number]>]: T[P];
   };
-};
-
-const detectUsingFakeTimers = (): boolean => {
-  let usingModernJestFakeTimers = false;
-  try {
-    // jest.getRealSystemTime is only supported for Jest's `modern` fake timers and otherwise throws
-    vi.getRealSystemTime();
-    usingModernJestFakeTimers = true;
-  } catch {
-    // not using Jest's modern fake timers
-  }
-
-  return usingModernJestFakeTimers;
-};
-
-// stolen from https://github.com/testing-library/dom-testing-library/blob/master/src/helpers.js
-export const runWithRealTimers = <T, R>(
-  callback: () => T | Promise<R>,
-): T | Promise<R> => {
-  const usingFakeTimers = detectUsingFakeTimers();
-
-  if (usingFakeTimers) {
-    vi.useRealTimers();
-  }
-
-  const callbackReturnValue = callback();
-
-  if (isPromise(callbackReturnValue)) {
-    return callbackReturnValue.then((value) => {
-      if (usingFakeTimers) {
-        vi.useFakeTimers();
-      }
-
-      return value;
-    });
-  }
-
-  if (usingFakeTimers) {
-    vi.useFakeTimers();
-  }
-
-  return callbackReturnValue;
 };
 
 export const sleep = (time: number): Promise<void> =>

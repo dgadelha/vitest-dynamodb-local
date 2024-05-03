@@ -63,7 +63,7 @@ const readConfig = (): Config => {
 export const getDynamoDbLocalPort = (): number => {
   const { basePort = 8000 } = readConfig();
   if (Number.isInteger(basePort) && basePort > 0 && basePort <= 65535) {
-    return basePort + parseInt(process.env.VITEST_WORKER_ID || "1", 10);
+    return basePort;
   }
 
   throw new TypeError(

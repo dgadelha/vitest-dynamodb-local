@@ -1,7 +1,7 @@
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { TableConfig } from "./types";
-import { omit, runWithRealTimers, sleep } from "./utils";
+import { omit, sleep } from "./utils";
 
 type Connection = {
   dynamoDB: DynamoDB;
@@ -69,59 +69,57 @@ const waitForDeleted = async (
   }
 };
 
-export const deleteTables = (
+export const deleteTables = async (
   tableNames: string[],
   port: number,
-): Promise<void> =>
-  runWithRealTimers(async () => {
-    const { dynamoDB } = dbConnection(port);
-    await Promise.all(
-      tableNames.map((table) =>
-        dynamoDB.deleteTable({ TableName: table }).catch(() => {}),
-      ),
-    );
-    await Promise.all(
-      tableNames.map((table) => waitForDeleted(dynamoDB, table)),
-    );
-  });
+): Promise<void> => {
+  const { dynamoDB } = dbConnection(port);
+  await Promise.all(
+    tableNames.map((table) =>
+      dynamoDB.deleteTable({ TableName: table }).catch(() => {}),
+    ),
+  );
 
-export const createTables = (
+  await Promise.all(tableNames.map((table) => waitForDeleted(dynamoDB, table)));
+};
+
+export const createTables = async (
   tables: TableConfig[],
   port: number,
-): Promise<void> =>
-  runWithRealTimers(async () => {
-    const { dynamoDB } = dbConnection(port);
+): Promise<void> => {
+  const { dynamoDB } = dbConnection(port);
 
-    await Promise.all(
-      tables.map((table) => dynamoDB.createTable(omit(table, "data"))),
-    );
+  await Promise.all(
+    tables.map((table) => dynamoDB.createTable(omit(table, "data"))),
+  );
 
-    await Promise.all(
-      tables.map((table) => waitForTable(dynamoDB, table.TableName)),
-    );
-    await Promise.all(
-      tables.map(
-        (table) =>
-          table.data &&
-          Promise.all(
-            table.data.map((row) =>
-              dynamoDB
-                .putItem({
-                  TableName: table.TableName,
-                  Item: marshall(row) as any,
-                })
-                .catch((e) => {
-                  throw new Error(
-                    `Could not add ${JSON.stringify(row)} to "${
-                      table.TableName
-                    }": ${e.message}`,
-                  );
-                }),
-            ),
+  await Promise.all(
+    tables.map((table) => waitForTable(dynamoDB, table.TableName)),
+  );
+
+  await Promise.all(
+    tables.map(
+      (table) =>
+        table.data &&
+        Promise.all(
+          table.data.map((row) =>
+            dynamoDB
+              .putItem({
+                TableName: table.TableName,
+                Item: marshall(row) as any,
+              })
+              .catch((e) => {
+                throw new Error(
+                  `Could not add ${JSON.stringify(row)} to "${
+                    table.TableName
+                  }": ${e.message}`,
+                );
+              }),
           ),
-      ),
-    );
-  });
+        ),
+    ),
+  );
+};
 
 export const killConnection = (): void => {
   connection?.dynamoDB.destroy();
