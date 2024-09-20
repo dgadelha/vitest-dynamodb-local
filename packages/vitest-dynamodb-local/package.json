@@ -36,18 +36,18 @@
     "build": "unbuild"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.565.0",
-    "@aws-sdk/util-dynamodb": "^3.565.0",
-    "dynamo-db-local": "^8.1.1",
+    "@aws-sdk/client-dynamodb": "^3.656.0",
+    "@aws-sdk/util-dynamodb": "^3.656.0",
+    "dynamo-db-local": "^9.2.1",
     "import-sync": "^2.2.2"
   },
   "peerDependencies": {
-    "vitest": "1.x"
+    "vitest": "2.x"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
-    "typescript": "^5.4.5",
+    "@types/node": "^20.16.5",
+    "typescript": "^5.6.2",
     "unbuild": "^2.0.0",
-    "vitest": "1.x"
+    "vitest": "2.x"
   }
 }
